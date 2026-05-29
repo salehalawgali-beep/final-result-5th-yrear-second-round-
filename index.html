@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>نتائج الدفعة 47 – الدور الثاني – كلية الطب البشري – النظام التفاعلي</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #eef2f5 0%, #d4dee8 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .system-container {
+            max-width: 1350px;
+            width: 100%;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 56px;
+            box-shadow: 0 30px 55px -15px rgba(0,0,0,0.35);
+            padding: 35px 30px;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .university-header { text-align: center; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
+        .uni-faculty-container {
+            background: linear-gradient(135deg, #1e3a5f, #0a2f44);
+            color: white;
+            padding: 25px 50px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 25px -10px rgba(10,47,68,0.5);
+            border: 2px solid #d4a76a;
+            width: fit-content;
+        }
+        .uni-faculty-container h1 { font-size: 3.5rem; font-weight: 900; text-shadow: 3px 3px 6px rgba(0,0,0,0.4); }
+        .uni-faculty-container h2 { font-size: 2.2rem; color: #f5dba8; font-weight: 700; margin-top: 5px; }
+        .program-badge {
+            background: #ffffff; color: #1e3a5f; display: inline-flex; align-items: center; gap: 12px;
+            padding: 15px 40px; border-radius: 60px; font-size: 1.6rem; font-weight: 800;
+            border: 3px solid #f5b041; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 25px;
+        }
+        .uni-president {
+            font-size: 1.9rem; font-weight: 900; color: #8B4513; background: linear-gradient(115deg, #fef3e2, #fae9cf);
+            padding: 15px 50px; border-radius: 50px; display: inline-block; margin-bottom: 25px;
+            border: 2px solid #e2b87a; box-shadow: 0 8px 20px -5px rgba(139,69,19,0.3);
+        }
+        .officials-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-bottom: 10px; }
+        .system-designer {
+            font-size: 1.4rem; color: #1e3a5f; background: #eef2f6; padding: 15px 40px; border-radius: 20px;
+            border-right: 6px solid #1e3a5f; display: inline-flex; flex-direction: column; align-items: center;
+            font-weight: 800; box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        }
+        .system-designer .highlight { color: #2c6e9e; font-weight: 900; font-size: 1.5rem; }
+        .system-designer .title { font-size: 1.2rem; color: #e67e22; font-weight: 800; margin-top: 5px; }
+        
+        .dean-container {
+            font-size: 1.6rem; color: #0a2f44; background: #fff6e6; padding: 15px 45px; border-radius: 30px;
+            border-left: 6px solid #f5b041; display: inline-flex; align-items: center; gap: 20px;
+            font-weight: 800; box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .dean-container .dean-icon { background: #f5b041; color: white; padding: 12px; border-radius: 50%; font-size: 2.2rem; }
+        
+        .heads-section {
+            margin: 25px auto 15px auto;
+            background: #fef9ef;
+            border-radius: 50px;
+            padding: 15px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 35px;
+            border: 1px solid #f5dba8;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 1100px;
+        }
+        .head-item {
+            text-align: center;
+            min-width: 180px;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 60px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-right: 4px solid #f5b041;
+        }
+        .head-item .dept { font-size: 1rem; font-weight: 700; color: #1e3a5f; }
+        .head-item .name { font-size: 1.2rem; font-weight: 800; color: #8B4513; }
+        
+        .registrar-wrapper {
+            margin-top: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .registrar-container {
+            background: #eef2f6;
+            border-radius: 60px;
+            padding: 12px 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #1e3a5f;
+            border: 1px solid #cde0ef;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .registrar-container .icon { font-size: 1.8rem; }
+        
+        .stats-toggle-btn {
+            background: linear-gradient(135deg, #f5b041, #f39c12); border: none; color: white; font-size: 1.25rem;
+            font-weight: 800; padding: 12px 32px; border-radius: 50px; cursor: pointer; display: block;
+            margin: 30px auto; box-shadow: 0 8px 18px rgba(243,156,18,0.3); transition: 0.25s; width: fit-content;
+        }
+        .stats-toggle-btn:hover { transform: translateY(-3px); }
+        .stats-container {
+            max-height: 0; overflow: hidden; transition: max-height 0.6s ease-in-out, padding 0.4s;
+            background: white; border-radius: 40px; margin: 0 auto; width: 98%; opacity: 0;
+        }
+        .stats-container.active {
+            max-height: 1800px; padding: 25px; box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+            margin-bottom: 35px; opacity: 1; border: 1px solid #e2eef9;
+        }
+        .stats-cards { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 25px; }
+        .stat-card {
+            background: #f8fcff; border-radius: 28px; padding: 15px 20px; text-align: center;
+            min-width: 130px; flex: 1; border: 1px solid #cde3f2; transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-5px); background: #fffef7; }
+        .stat-card .title { font-size: 1rem; color: #1e3a5f; font-weight: 800; }
+        .stat-card .val { font-size: 2rem; font-weight: 900; color: #0a2f44; }
+        .stat-card .perc { font-size: 0.9rem; font-weight: bold; color: #e67e22; background: #fef0e0; display: inline-block; padding: 2px 12px; border-radius: 40px; margin-top: 5px; }
+        .success-rate-card { background: linear-gradient(135deg, #d4fc79, #96e6a1); border: 2px solid #2e7d32; }
+        .success-rate-card .title { color: #1b5e20; font-size: 1.1rem; }
+        .success-rate-card .val { color: #1b5e20; font-size: 2.4rem; }
+        
+        .charts-row { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin-bottom: 30px;}
+        .chart-box { background: #ffffffdd; padding: 15px; border-radius: 28px; width: 45%; min-width: 280px; }
+        
+        .subjects-stats-section {
+            margin-top: 30px;
+            background: #eef4fa;
+            border-radius: 40px;
+            padding: 20px;
+            border: 1px solid #cde0ef;
+        }
+        .subjects-stats-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #0a2f44;
+            text-align: center;
+            margin-bottom: 20px;
+            background: #fff2df;
+            display: inline-block;
+            width: auto;
+            padding: 8px 35px;
+            border-radius: 60px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+        .subject-card {
+            background: white;
+            border-radius: 32px;
+            padding: 20px;
+            min-width: 0;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            border-top: 8px solid #f5b041;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+        .subject-card:hover { transform: translateY(-5px); }
+        .subject-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1e3a5f;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f5dba8;
+            display: inline-block;
+        }
+        .subject-stat {
+            margin: 12px 0;
+            font-size: 1rem;
+        }
+        .subject-stat .label {
+            font-weight: 700;
+            color: #2c3e50;
+            background: #f0f4f9;
+            padding: 4px 12px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        .subject-stat .number {
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #0a2f44;
+        }
+        .subject-rate {
+            background: #e9f5e9;
+            border-radius: 40px;
+            padding: 8px;
+            margin-top: 12px;
+            font-weight: 800;
+            color: #2e7d32;
+        }
+        .grade-dist {
+            font-size: 0.85rem;
+            margin-top: 10px;
+            background: #fef7e0;
+            border-radius: 20px;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        .grade-dist span {
+            background: #fff;
+            padding: 3px 10px;
+            border-radius: 25px;
+            font-weight: 700;
+        }
+        @media (max-width: 700px) {
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* تصميم حقل البحث المميز بالأيقونة الملونة */
+        .search-card {
+            background: white;
+            border-radius: 100px;
+            padding: 7px 7px 7px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 18px 32px -12px rgba(0,0,0,0.2);
+            margin-bottom: 38px;
+            margin-top: 30px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            background: linear-gradient(white, white) padding-box, linear-gradient(135deg, #f5b041, #e67e22) border-box;
+        }
+        .search-card:focus-within {
+            box-shadow: 0 20px 35px -10px rgba(245,176,65,0.4);
+            transform: scale(1.01);
+        }
+        .search-card input {
+            flex: 1;
+            border: none;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            border-radius: 80px;
+            background: transparent;
+            font-weight: 600;
+            color: #0a2f44;
+            direction: ltr;
+            text-align: center;
+            outline: none;
+        }
+        .search-card input::placeholder {
+            color: #a0b8ce;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .search-card button {
+            background: linear-gradient(115deg, #1e3a5f, #2c5a7a);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 800;
+            padding: 12px 36px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .search-card button:hover {
+            background: linear-gradient(115deg, #0f2c40, #1e4a6e);
+            transform: scale(0.97);
+        }
+        .search-card button::before {
+            content: "🔍";
+            font-size: 1.3rem;
+        }
+        
+        .student-result { background: rgba(255,255,245,0.7); backdrop-filter: blur(8px); border-radius: 48px; padding: 20px 25px 30px; border: 1px solid rgba(255,255,210,0.9); box-shadow: 0 20px 30px -15px rgba(0,0,0,0.15); }
+        .student-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; background: linear-gradient(125deg, #0a2f44, #124263); color: white; padding: 18px 30px; border-radius: 48px; margin-bottom: 25px; }
+        .student-name { font-size: 1.9rem; font-weight: 800; }
+        .student-id { background: #f5b041; padding: 10px 28px; border-radius: 60px; font-weight: 800; font-size: 1.7rem; color: #202020; }
+        
+        .grades-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-bottom: 24px; }
+        .grades-table th { background: #1e3a5f; color: white; padding: 16px 8px; font-size: 1.1rem; font-weight: 800; }
+        .grades-table th:first-child { border-radius: 0 15px 15px 0; }
+        .grades-table th:last-child { border-radius: 15px 0 0 15px; }
+        .grades-table td { padding: 14px 8px; text-align: center; background: white; font-weight: 600; color: #153e57; border-top: 1px solid #eef2f5; border-bottom: 1px solid #eef2f5; vertical-align: middle; }
+        .grades-table tr td:first-child { 
+            border-right: 1px solid #eef2f5; 
+            border-radius: 0 20px 20px 0; 
+            background: linear-gradient(120deg, #fef9e6, #fff6e6);
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #8B4513;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+            width: 22%;
+            box-shadow: inset 0 0 0 1px #fff8, 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .grades-table tr td:first-child span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(245,176,65,0.2);
+            padding: 8px 18px;
+            border-radius: 60px;
+        }
+        .grades-table tr td:last-child { border-left: 1px solid #eef2f5; border-radius: 15px 0 0 15px; }
+        .grades-table tr:hover td { background: #fffcf5; border-color: #f5dba8; }
+        
+        .numeric-cell { display: inline-block; background: #fdfaf4; border: 2px solid #e2b87a; color: #8B4513; font-weight: 900; font-size: 1.1rem; padding: 6px 16px; border-radius: 15px; min-width: 80px; }
+        .score-info {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2c6e9e;
+            background: #f0f6fc;
+            border-radius: 12px;
+            padding: 4px 8px;
+            margin-top: 6px;
+            display: inline-block;
+            text-align: center;
+            direction: ltr;
+        }
+        .grade-badge { display: inline-block; padding: 8px 22px; border-radius: 50px; font-weight: 900; font-size: 1rem; color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .grade-badge.excellent { background: #27ae60; }
+        .grade-badge.verygood { background: #82e0aa; color: #0a2f44; }
+        .grade-badge.good { background: #3498db; }
+        .grade-badge.pass { background: #f39c12; }
+        .grade-badge.fail { background: #e74c3c; }
+        
+        .final-summary { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; background: #eef2f0aa; padding: 25px 20px; border-radius: 48px; margin: 25px 0 30px; border: 1px solid #ffdd99; }
+        .summary-item { background: white; padding: 15px 40px; border-radius: 80px; text-align: center; min-width: 200px; box-shadow: 0 8px 18px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .summary-item:hover { transform: translateY(-3px); background: #fffef5; }
+        .summary-item .label { font-weight: 700; color: #2c3e50; font-size: 1rem; letter-spacing: 0.5px; margin-bottom: 6px; display: block; }
+        .summary-item .value { font-size: 2.2rem; font-weight: 900; color: #0b3b5c; line-height: 1.2; }
+        .grade-value { background: linear-gradient(135deg, #f9f3e0, #fff5e8); border-radius: 30px; padding: 12px 24px; display: inline-block; font-weight: 900; }
+        
+        .signatures { display: flex; flex-wrap: wrap; justify-content: center; gap: 50px; margin-top: 25px; padding-top: 20px; border-top: 2px dashed #d4a76a; }
+        .signature-item { text-align: center; min-width: 220px; }
+        .signature-title { font-weight: 800; color: #1f5e8e; margin-bottom: 12px; font-size: 1.1rem; }
+        .signature-name { font-weight: 700; color: #2c3e50; font-size: 1.2rem; }
+        
+        .print-btn { background: #2c5a7a; border: none; color: white; font-size: 1.2rem; padding: 12px 38px; border-radius: 60px; cursor: pointer; display: inline-flex; align-items: center; gap: 12px; margin-top: 10px; }
+        .footer-note { margin-top: 30px; text-align: center; background: #eef3f9aa; padding: 14px; border-radius: 50px; font-size: 0.9rem; color: #1e4663; }
+        
+        /* تحذير أمان */
+        .security-note {
+            font-size: 0.8rem;
+            color: #e67e22;
+            background: #fff3e0;
+            border-radius: 30px;
+            padding: 6px 15px;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        
+        @media print {
+            @page { size: A4; margin: 0.5cm; }
+            body { background: white; padding: 0; margin: 0; font-size: 11px; }
+            .system-container { background: white !important; padding: 0.3cm !important; box-shadow: none !important; max-width: 100%; }
+            .stats-toggle-btn, .stats-container, .subjects-stats-section, .search-card, .uni-president, .heads-section, .registrar-wrapper, .print-btn, .footer-note { display: none !important; }
+            .student-result { background: white !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; page-break-inside: avoid; break-inside: avoid; }
+            .student-header { background: #0a2f44 !important; padding: 6px 12px !important; margin-bottom: 8px !important; border-radius: 12px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .student-name { font-size: 1.2rem !important; }
+            .student-id { font-size: 1rem !important; padding: 4px 12px !important; }
+            .grades-table { margin-bottom: 8px !important; }
+            .grades-table th { background: #1e3a5f !important; color: white !important; padding: 6px 4px !important; font-size: 0.9rem !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .grades-table td { padding: 6px 4px !important; font-size: 0.85rem !important; }
+            .grades-table tr td:first-child { font-size: 1rem !important; padding: 4px !important; }
+            .grades-table tr td:first-child span { padding: 2px 8px !important; }
+            .numeric-cell { padding: 2px 8px !important; font-size: 0.85rem !important; min-width: 60px; }
+            .score-info { font-size: 0.6rem !important; padding: 2px 4px !important; }
+            .grade-badge { padding: 3px 10px !important; font-size: 0.75rem !important; }
+            .final-summary { padding: 6px !important; margin: 6px 0 !important; gap: 8px; }
+            .summary-item { padding: 6px 12px !important; min-width: 110px !important; }
+            .summary-item .label { font-size: 0.7rem !important; }
+            .summary-item .value { font-size: 1.1rem !important; }
+            .grade-value { padding: 4px 12px !important; }
+            .signatures { margin-top: 8px !important; padding-top: 8px !important; gap: 20px; page-break-inside: avoid; break-inside: avoid; }
+            .signature-item { min-width: 150px; }
+            .signature-title { font-size: 0.75rem !important; margin-bottom: 4px; }
+            .signature-name { font-size: 0.85rem !important; }
+            .program-badge { font-size: 0.8rem !important; padding: 4px 12px !important; margin-bottom: 6px !important; }
+            .uni-faculty-container { padding: 6px 15px !important; margin-bottom: 6px !important; }
+            .uni-faculty-container h1 { font-size: 1.2rem !important; }
+            .uni-faculty-container h2 { font-size: 0.9rem !important; }
+            .officials-wrapper { gap: 10px; margin-bottom: 4px; }
+            .system-designer, .dean-container { padding: 4px 12px !important; font-size: 0.75rem !important; }
+            .system-designer .highlight { font-size: 0.85rem !important; }
+            .dean-container .dean-icon { font-size: 1rem !important; padding: 4px; }
+            .student-header, .grades-table, .final-summary, .signatures { page-break-inside: avoid; break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+<div class="system-container">
+    <div class="university-header">
+        <div class="uni-faculty-container"><h1>🏛️ جامعة بنغازي</h1><h2>كلية الطب البشري</h2></div>
+        <div class="program-badge">🎓 نتيجة السنة الخامسة – الدفعة 47 – الدور الثاني 2024-2025</div>
+        <div class="uni-president">رئيس الجامعة: أ.د. عز الدين الدرسي</div>
+        <div class="officials-wrapper">
+            <div class="system-designer">إعداد وتصميم المنظومة: <span class="highlight">د. صالح الاوجلي</span><span class="title">رئيس قسم الدراسة والامتحانات</span></div>
+            <div class="dean-container"><span class="dean-icon">🏛️</span><div>عميد الكلية: د. فتحي البركي</div></div>
+        </div>
+        <div class="heads-section">
+            <div class="head-item"><div class="dept">🧬 رئيس قسم الباطنة</div><div class="name">د. موسى الفاخري</div></div>
+            <div class="head-item"><div class="dept">🔪 رئيس قسم الجراحة</div><div class="name">أ.د. صلاح الطقطوق</div></div>
+            <div class="head-item"><div class="dept">👶 رئيس قسم طب الأطفال</div><div class="name">د. جبريل العبيدي</div></div>
+            <div class="head-item"><div class="dept">🧴 رئيس قسم الجلدية</div><div class="name">أ.د. إبراهيم المكحل</div></div>
+        </div>
+        <div class="registrar-wrapper">
+            <div class="registrar-container">
+                <span class="icon">📋</span>
+                <span>مسجل الكلية: أ. ونيس الطواح</span>
+            </div>
+        </div>
+    </div>
+
+    <button class="stats-toggle-btn" id="statsToggleBtn">📊 عرض الإحصائيات العامة للنتيجة (الدور الثاني)</button>
+    <div class="stats-container" id="statsContainer">
+        <h3 style="text-align:center; color:#0a2f44;">إحصائيات نتيجة الدفعة 47 – الدور الثاني (جميع الطلاب)</h3>
+        <div class="stats-cards" id="statsCardsHTML"></div>
+        <div class="charts-row"><div class="chart-box"><canvas id="passFailChart"></canvas></div><div class="chart-box"><canvas id="gradesChart"></canvas></div></div>
+        <div class="subjects-stats-section" id="subjectsStatsSection">
+            <div style="text-align: center;"><div class="subjects-stats-title">📈 إحصائيات المواد التفصيلية</div></div>
+            <div class="subjects-grid" id="subjectsStatsGrid"></div>
+        </div>
+    </div>
+
+    <!-- حقل بحث محسّن: بدون أي أمثلة أرقام، مع أيقونة ملونة وعبارة تحذيرية -->
+    <div class="search-card">
+        <input type="text" id="studentIdInput" placeholder="🔒 أدخل رقمك الدراسي الشخصي" dir="ltr">
+        <button id="searchBtn">عرض النتيجة</button>
+    </div>
+    <div style="text-align: center; margin-top: -25px; margin-bottom: 20px;">
+        <span class="security-note">⚠️ لا يمكن الاطلاع على النتيجة إلا بإدخال الرقم الصحيح الخاص بك</span>
+    </div>
+    
+    <div id="resultContainer" class="student-result">
+        <div style="text-align:center; padding:50px 20px;">
+            <span style="font-size:1.8rem; font-weight:700; color: #1e3a5f;">📘 أدخل رقمك الدراسي بدقة</span><br>
+            <span style="color:#2c6e9e;">النتيجة خاصة بصاحب الرقم فقط، ولن تظهر لأي شخص آخر</span>
+        </div>
+    </div>
+    <div class="footer-note">🔹 <strong>ملاحظات هامة (الدور الثاني):</strong><br>- النتيجة النهائية تعتمد على مجموع الدرجات في المواد الأربعة (الباطنة، الجراحة، طب الأطفال، الجلدية).<br>- يشترط للنجاح العام الحصول على تقدير "مقبول" فما فوق في كافة المواد.<br>- يتم احتساب التقدير العام بناءً على المجموع الكلي (من أصل 900 درجة).<br>- البيانات مأخوذة من كشف نتيجة الدور الثاني للعام 2024-2025.</div>
+</div>
+
+<script>
+// ------------------------------ البيانات الكاملة لجميع الطلاب (230 طالب) ------------------------------
+const studentsRaw = [
+{id:"5.1208",name:"محمد رزق عبدالرحمن",clinMed:85,totalMed:180,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:48,totalPed:125,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"4550",name:"عبدالسلام عمر محمد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:96,totalSurg:184,prevPassSurg:true, clinPed:0,totalPed:40,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"6316",name:"ادريس فرج عبدالسلام الوسيع",clinMed:90,totalMed:182,prevPassMed:true, clinSurg:98,totalSurg:224,prevPassSurg:true, clinPed:68,totalPed:171,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"6416",name:"عبدالهادي السيد عبدالرحمن",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:59,totalPed:140,prevPassPed:true, derm:70,prevPassDerm:true},
+{id:"6446",name:"هبة محمد المبروك",clinMed:87,totalMed:168,prevPassMed:false, clinSurg:78,totalSurg:180,prevPassSurg:true, clinPed:41,totalPed:97,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"6523",name:"سمية محمد سالم",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"7008",name:"ايمان محمد عبدالكريم",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"7478",name:"يوسف خليفة عمر ادريس",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"7735",name:"نادين الحسين مفتاح علي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"7951",name:"سالم ادم عبدربه الساعدي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"8201",name:"بن طاهر يحي عبدالحليم",clinMed:84,totalMed:185,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:48,totalPed:125,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"8585",name:"نادر أحمد مصطفى العبيدي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:63,prevPassDerm:true},
+{id:"8709",name:"وفاء فرج امراجع حسن",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:61,prevPassDerm:true},
+{id:"8732",name:"نسرين احمد إبراهيم حسونة",clinMed:86,totalMed:197,prevPassMed:false, clinSurg:78,totalSurg:188,prevPassSurg:true, clinPed:58,totalPed:123,prevPassPed:true, derm:65,prevPassDerm:true},
+{id:"8805",name:"محمد عبد القادر سالم",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"8922",name:"ايمان الأمين رافع الشريف",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:49,totalPed:123,prevPassPed:true, derm:26,prevPassDerm:false},
+{id:"8963",name:"احمدعبد القادر على عبد الله",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"9029",name:"بالقاسم محمد التواتي احميدة",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"9033",name:"عزيزة حسن محمد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:78,totalSurg:183,prevPassSurg:true, clinPed:52,totalPed:121,prevPassPed:true, derm:83,prevPassDerm:true},
+{id:"9260",name:"سالمة رجب امنيسي المبروك",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:88,totalSurg:207,prevPassSurg:false, clinPed:53,totalPed:120,prevPassPed:false, derm:68,prevPassDerm:true},
+{id:"9427",name:"فاطمة عبدالفتاح سعيد عياد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"9547",name:"نورا فرحات شعبان",clinMed:97,totalMed:211,prevPassMed:false, clinSurg:0,totalSurg:70,prevPassSurg:false, clinPed:0,totalPed:67,prevPassPed:false, derm:75,prevPassDerm:true},
+{id:"9588",name:"فاطمة حسين محمد عبدالله",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:73,prevPassDerm:true},
+{id:"9959",name:"فاطمة عبدالمجيد",clinMed:0,totalMed:45,prevPassMed:false, clinSurg:0,totalSurg:15,prevPassSurg:false, clinPed:0,totalPed:36,prevPassPed:false, derm:64,prevPassDerm:false},
+{id:"10004",name:"فاطمة احمد فرج الجهاني",clinMed:0,totalMed:47,prevPassMed:false, clinSurg:98,totalSurg:220,prevPassSurg:true, clinPed:48,totalPed:135,prevPassPed:false, derm:75,prevPassDerm:true},
+{id:"10012",name:"حريه دعبس الجارح عبدالرحمن",clinMed:101,totalMed:221,prevPassMed:false, clinSurg:101,totalSurg:234,prevPassSurg:true, clinPed:48,totalPed:120,prevPassPed:true, derm:74,prevPassDerm:true},
+{id:"10016",name:"تهاني عمر الفرجاني",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:78,totalSurg:182,prevPassSurg:true, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"10053",name:"هناء فهيم مصطفى",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:62,prevPassPed:false, derm:65,prevPassDerm:true},
+{id:"10431",name:"اماني مسعود امحمد بوزكرة",clinMed:80,totalMed:167,prevPassMed:false, clinSurg:78,totalSurg:187,prevPassSurg:true, clinPed:55,totalPed:139,prevPassPed:false, derm:61,prevPassDerm:true},
+{id:"10479",name:"احمد علي عمر المهدوي",clinMed:103,totalMed:223,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:54,totalPed:143,prevPassPed:true, derm:65,prevPassDerm:true},
+{id:"10763",name:"سعد بالقاسم حسين خليل",clinMed:110,totalMed:217,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:51,totalPed:123,prevPassPed:true, derm:65,prevPassDerm:true},
+{id:"10826",name:"فرح مسعود محمد علي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"10882",name:"تعويضة خالد سالم ميلاد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"10978",name:"على عبدالله على",clinMed:95,totalMed:180,prevPassMed:false, clinSurg:86,totalSurg:183,prevPassSurg:true, clinPed:40,totalPed:106,prevPassPed:false, derm:61,prevPassDerm:false},
+{id:"11002",name:"مراد سليمان محمد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"11355",name:"بشرى فرج عبدالغنى",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:70,prevPassDerm:true},
+{id:"11476",name:"فاطمة محمد ابراهيم",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:53,totalPed:120,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"11497",name:"احمد كمال عمر التربي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"11580",name:"فاطمة على احمد",clinMed:81,totalMed:170,prevPassMed:false, clinSurg:85,totalSurg:197,prevPassSurg:true, clinPed:52,totalPed:121,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"11583",name:"المنجى عيسى خليل",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:96,totalSurg:181,prevPassSurg:true, clinPed:0,totalPed:0,prevPassPed:false, derm:70,prevPassDerm:true},
+{id:"11601",name:"نرجس احمد ابراهيم",clinMed:0,totalMed:65,prevPassMed:false, clinSurg:0,totalSurg:40,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:65,prevPassDerm:false},
+{id:"11767",name:"خديجة حسين ابراهيم",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:96,totalSurg:193,prevPassSurg:true, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"12039",name:"سعد يحمد محمد",clinMed:92,totalMed:187,prevPassMed:false, clinSurg:0,totalSurg:53,prevPassSurg:false, clinPed:51,totalPed:120,prevPassPed:false, derm:31,prevPassDerm:false},
+{id:"12119",name:"مهند محمد على حسين",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:48,totalPed:127,prevPassPed:true, derm:0,prevPassDerm:false},
+{id:"12128",name:"امبرة مصطفى مسعود",clinMed:91,totalMed:154,prevPassMed:false, clinSurg:81,totalSurg:180,prevPassSurg:true, clinPed:54,totalPed:120,prevPassPed:false, derm:61,prevPassDerm:true},
+{id:"12194",name:"مريم جمال السيد محمود",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"12255",name:"عبدالرحمن صالح غيث",clinMed:123,totalMed:182,prevPassMed:true, clinSurg:67,totalSurg:175,prevPassSurg:false, clinPed:55,totalPed:121,prevPassPed:true, derm:61,prevPassDerm:true},
+{id:"12444",name:"محمد المهدي امحمد",clinMed:96,totalMed:238,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:48,totalPed:167,prevPassPed:true, derm:75,prevPassDerm:true},
+{id:"12445",name:"نور محمد جاد الله",clinMed:132,totalMed:181,prevPassMed:true, clinSurg:87,totalSurg:206,prevPassSurg:false, clinPed:57,totalPed:133,prevPassPed:false, derm:73,prevPassDerm:false},
+{id:"12515",name:"عائشة حسن محمد",clinMed:84,totalMed:188,prevPassMed:false, clinSurg:78,totalSurg:202,prevPassSurg:false, clinPed:51,totalPed:135,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"12564",name:"عائشة عبدالحكيم المصراتي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"12738",name:"محمد صالح سالم",clinMed:87,totalMed:182,prevPassMed:false, clinSurg:78,totalSurg:192,prevPassSurg:true, clinPed:52,totalPed:124,prevPassPed:true, derm:75,prevPassDerm:true},
+{id:"12749",name:"اسماء ونيس محمد العنيزي",clinMed:85,totalMed:188,prevPassMed:false, clinSurg:85,totalSurg:198,prevPassSurg:true, clinPed:58,totalPed:141,prevPassPed:false, derm:62,prevPassDerm:true},
+{id:"12757",name:"رغد ابراهيم محمد صالح",clinMed:100,totalMed:192,prevPassMed:true, clinSurg:69,totalSurg:170,prevPassSurg:false, clinPed:41,totalPed:113,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"12848",name:"يوسف ادريس يوسف ادم",clinMed:100,totalMed:187,prevPassMed:false, clinSurg:78,totalSurg:180,prevPassSurg:false, clinPed:56,totalPed:126,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"12872",name:"سناء فرج الهادي مفتاح",clinMed:84,totalMed:185,prevPassMed:false, clinSurg:80,totalSurg:184,prevPassSurg:true, clinPed:56,totalPed:136,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"12904",name:"خولة محمد علي العباني",clinMed:103,totalMed:205,prevPassMed:false, clinSurg:85,totalSurg:195,prevPassSurg:true, clinPed:65,totalPed:151,prevPassPed:false, derm:63,prevPassDerm:true},
+{id:"12923",name:"نبيلة نبيل محمد عبدالصمد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:96,totalSurg:184,prevPassSurg:true, clinPed:48,totalPed:148,prevPassPed:true, derm:0,prevPassDerm:false},
+{id:"12958",name:"عفراء رزق محمد خليفة",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:78,totalSurg:191,prevPassSurg:true, clinPed:0,totalPed:0,prevPassPed:false, derm:71,prevPassDerm:true},
+{id:"13217",name:"نورهان عادل عودة",clinMed:97,totalMed:187,prevPassMed:true, clinSurg:89,totalSurg:208,prevPassSurg:true, clinPed:59,totalPed:128,prevPassPed:false, derm:65,prevPassDerm:true},
+{id:"13219",name:"مبروكة فضل الله عبدالقادر",clinMed:90,totalMed:180,prevPassMed:true, clinSurg:78,totalSurg:182,prevPassSurg:true, clinPed:45,totalPed:124,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"13413",name:"سعد الدين سالم محمد القيش",clinMed:91,totalMed:166,prevPassMed:false, clinSurg:72,totalSurg:172,prevPassSurg:false, clinPed:48,totalPed:112,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"13475",name:"محمود مصطفى محمد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"13553",name:"سراج الدين ادريس نوير",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:94,totalSurg:218,prevPassSurg:false, clinPed:57,totalPed:145,prevPassPed:true, derm:71,prevPassDerm:false},
+{id:"13571",name:"سارة محمد حميدة عوض",clinMed:97,totalMed:213,prevPassMed:false, clinSurg:106,totalSurg:235,prevPassSurg:true, clinPed:50,totalPed:127,prevPassPed:true, derm:76,prevPassDerm:true},
+{id:"13604",name:"ابوبكر جمعة نصر المبروك",clinMed:90,totalMed:196,prevPassMed:false, clinSurg:82,totalSurg:189,prevPassSurg:true, clinPed:48,totalPed:124,prevPassPed:true, derm:65,prevPassDerm:true},
+{id:"13663",name:"صالحه سالم اسماعيل السيلينى",clinMed:96,totalMed:191,prevPassMed:false, clinSurg:92,totalSurg:215,prevPassSurg:true, clinPed:53,totalPed:128,prevPassPed:true, derm:75,prevPassDerm:true},
+{id:"13668",name:"أمل عبدالمجيد خطاب إبراهيم",clinMed:90,totalMed:200,prevPassMed:false, clinSurg:78,totalSurg:207,prevPassSurg:true, clinPed:54,totalPed:122,prevPassPed:true, derm:75,prevPassDerm:true},
+{id:"13686",name:"مبروكة محمد إبراهيم الزروق",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:95,totalSurg:222,prevPassSurg:true, clinPed:49,totalPed:120,prevPassPed:true, derm:79,prevPassDerm:true},
+{id:"13689",name:"احلام اسامة سالم الشريف",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"13722",name:"خلود محمد راف الله صالح",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:67,prevPassPed:false, derm:68,prevPassDerm:true},
+{id:"13744",name:"اسماعيل حسين اسويكر موسى",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"13753",name:"أميرة توفيق أحمد المكاس",clinMed:101,totalMed:202,prevPassMed:false, clinSurg:87,totalSurg:209,prevPassSurg:true, clinPed:50,totalPed:125,prevPassPed:false, derm:76,prevPassDerm:false},
+{id:"13812",name:"دعاء حمدي ياسين سعد",clinMed:88,totalMed:195,prevPassMed:false, clinSurg:92,totalSurg:210,prevPassSurg:true, clinPed:51,totalPed:124,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"13857",name:"حنين يوسف عمر سعيد",clinMed:96,totalMed:180,prevPassMed:false, clinSurg:87,totalSurg:190,prevPassSurg:true, clinPed:47,totalPed:112,prevPassPed:false, derm:61,prevPassDerm:false},
+{id:"13861",name:"حليم عبدالسلام جمعة العرفي",clinMed:95,totalMed:195,prevPassMed:false, clinSurg:92,totalSurg:188,prevPassSurg:true, clinPed:55,totalPed:136,prevPassPed:false, derm:73,prevPassDerm:false},
+{id:"13886",name:"طلال فتحي فرج اذكيران",clinMed:100,totalMed:201,prevPassMed:false, clinSurg:79,totalSurg:184,prevPassSurg:true, clinPed:54,totalPed:127,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"13910",name:"حواء صلاح الدين سعد",clinMed:96,totalMed:206,prevPassMed:false, clinSurg:85,totalSurg:183,prevPassSurg:true, clinPed:58,totalPed:147,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"13949",name:"مريم أسامة مفتاح المسماري",clinMed:84,totalMed:180,prevPassMed:false, clinSurg:84,totalSurg:208,prevPassSurg:false, clinPed:48,totalPed:127,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"13968",name:"هبة علي محمد بن علي",clinMed:97,totalMed:197,prevPassMed:false, clinSurg:84,totalSurg:192,prevPassSurg:true, clinPed:56,totalPed:139,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"14152",name:"بشير طارق بشير",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:29,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"14176",name:"سالم محمد سالم",clinMed:89,totalMed:180,prevPassMed:true, clinSurg:78,totalSurg:194,prevPassSurg:true, clinPed:60,totalPed:136,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"14242",name:"صفاء عوض محمد عبدالسميع",clinMed:74,totalMed:164,prevPassMed:false, clinSurg:78,totalSurg:185,prevPassSurg:true, clinPed:51,totalPed:120,prevPassPed:true, derm:65,prevPassDerm:true},
+{id:"14264",name:"محمد قدري عبدالسلام",clinMed:95,totalMed:203,prevPassMed:false, clinSurg:78,totalSurg:186,prevPassSurg:true, clinPed:55,totalPed:127,prevPassPed:true, derm:61,prevPassDerm:true},
+{id:"14268",name:"فاطمة عبدالناصر محمد",clinMed:99,totalMed:210,prevPassMed:false, clinSurg:83,totalSurg:191,prevPassSurg:true, clinPed:51,totalPed:130,prevPassPed:true, derm:61,prevPassDerm:true},
+{id:"14294",name:"رانيا الشارف عبدالسلام",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:55,totalPed:128,prevPassPed:true, derm:0,prevPassDerm:false},
+{id:"14300",name:"منى عادل حمودة",clinMed:100,totalMed:187,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:61,prevPassDerm:true},
+{id:"14332",name:"إيمان عيون السنوسي",clinMed:104,totalMed:180,prevPassMed:true, clinSurg:84,totalSurg:190,prevPassSurg:false, clinPed:48,totalPed:121,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"14336",name:"بالقاسم صالح جبريل",clinMed:0,totalMed:48,prevPassMed:false, clinSurg:88,totalSurg:218,prevPassSurg:false, clinPed:54,totalPed:146,prevPassPed:false, derm:78,prevPassDerm:true},
+{id:"14349",name:"محمد يونس صالح",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"14414",name:"صفاء محمد خليفة",clinMed:107,totalMed:210,prevPassMed:false, clinSurg:88,totalSurg:181,prevPassSurg:true, clinPed:60,totalPed:142,prevPassPed:false, derm:74,prevPassDerm:false},
+{id:"14419",name:"الرفاعي محجوب مفتاح",clinMed:89,totalMed:188,prevPassMed:false, clinSurg:0,totalSurg:30,prevPassSurg:false, clinPed:54,totalPed:120,prevPassPed:false, derm:13,prevPassDerm:false},
+{id:"14461",name:"مروة مفتاح محمد",clinMed:120,totalMed:191,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"14480",name:"سارة صلاح محمد",clinMed:94,totalMed:198,prevPassMed:false, clinSurg:104,totalSurg:232,prevPassSurg:true, clinPed:55,totalPed:131,prevPassPed:true, derm:71,prevPassDerm:true},
+{id:"14505",name:"عبدالناصر ابوزيد عبدالمولى العبيدي",clinMed:102,totalMed:208,prevPassMed:false, clinSurg:94,totalSurg:208,prevPassSurg:true, clinPed:54,totalPed:121,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"14545",name:"حسين نجيب فرج",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"14565",name:"موسى محمد موسى",clinMed:105,totalMed:224,prevPassMed:false, clinSurg:89,totalSurg:218,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:70,prevPassDerm:true},
+{id:"14729",name:"وردة بوبكر حسن سلامة",clinMed:87,totalMed:180,prevPassMed:false, clinSurg:78,totalSurg:181,prevPassSurg:false, clinPed:49,totalPed:120,prevPassPed:true, derm:74,prevPassDerm:true},
+{id:"14732",name:"نادية محمد ابكر",clinMed:86,totalMed:180,prevPassMed:false, clinSurg:66,totalSurg:163,prevPassSurg:false, clinPed:54,totalPed:128,prevPassPed:false, derm:71,prevPassDerm:false},
+{id:"14768",name:"امل حسين محمد",clinMed:104,totalMed:217,prevPassMed:false, clinSurg:88,totalSurg:213,prevPassSurg:true, clinPed:60,totalPed:128,prevPassPed:true, derm:67,prevPassDerm:true},
+{id:"14775",name:"وفاء عبد العزيز على",clinMed:101,totalMed:196,prevPassMed:true, clinSurg:86,totalSurg:208,prevPassSurg:true, clinPed:55,totalPed:141,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"15003",name:"صفاء إعبيد يونس قاسم",clinMed:99,totalMed:195,prevPassMed:false, clinSurg:88,totalSurg:181,prevPassSurg:true, clinPed:55,totalPed:124,prevPassPed:true, derm:71,prevPassDerm:false},
+{id:"15005",name:"ندى إسماعيل سالم إمحارب",clinMed:114,totalMed:196,prevPassMed:true, clinSurg:104,totalSurg:248,prevPassSurg:false, clinPed:70,totalPed:166,prevPassPed:false, derm:89,prevPassDerm:false},
+{id:"15020",name:"ملاك عبدالخير الصالحين بن كاطو",clinMed:95,totalMed:208,prevPassMed:false, clinSurg:92,totalSurg:195,prevPassSurg:true, clinPed:54,totalPed:121,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"15033",name:"عبدالكريم حمد عبدالكريم السيفي",clinMed:98,totalMed:194,prevPassMed:false, clinSurg:85,totalSurg:204,prevPassSurg:true, clinPed:49,totalPed:140,prevPassPed:false, derm:66,prevPassDerm:true},
+{id:"15045",name:"مراد سعيد محمد صالح",clinMed:90,totalMed:180,prevPassMed:false, clinSurg:78,totalSurg:188,prevPassSurg:true, clinPed:46,totalPed:113,prevPassPed:false, derm:66,prevPassDerm:true},
+{id:"15178",name:"ملاك مجدي سالم عقيلة",clinMed:101,totalMed:209,prevPassMed:false, clinSurg:84,totalSurg:181,prevPassSurg:true, clinPed:52,totalPed:132,prevPassPed:true, derm:70,prevPassDerm:true},
+{id:"15185",name:"نورالهدى عبدالباسط  إدريس",clinMed:94,totalMed:185,prevPassMed:false, clinSurg:83,totalSurg:180,prevPassSurg:true, clinPed:57,totalPed:130,prevPassPed:true, derm:62,prevPassDerm:true},
+{id:"15212",name:"إيناس علي حسين أبوبكر",clinMed:84,totalMed:191,prevPassMed:false, clinSurg:78,totalSurg:202,prevPassSurg:false, clinPed:55,totalPed:135,prevPassPed:false, derm:67,prevPassDerm:true},
+{id:"15215",name:"مبروكة سامي ناجي مفتاح",clinMed:109,totalMed:234,prevPassMed:false, clinSurg:84,totalSurg:211,prevPassSurg:false, clinPed:63,totalPed:155,prevPassPed:false, derm:80,prevPassDerm:false},
+{id:"15232",name:"نورالهدى إبراهيم حسن دلة",clinMed:96,totalMed:209,prevPassMed:false, clinSurg:79,totalSurg:191,prevPassSurg:true, clinPed:59,totalPed:140,prevPassPed:true, derm:67,prevPassDerm:true},
+{id:"15256",name:"المعتزبالله صالح سعيد إبراهيم",clinMed:106,totalMed:221,prevPassMed:false, clinSurg:92,totalSurg:219,prevPassSurg:true, clinPed:63,totalPed:138,prevPassPed:true, derm:68,prevPassDerm:true},
+{id:"15294",name:"ريم حميد صالح عبدالرحيم",clinMed:100,totalMed:205,prevPassMed:false, clinSurg:106,totalSurg:235,prevPassSurg:true, clinPed:54,totalPed:128,prevPassPed:true, derm:66,prevPassDerm:true},
+{id:"15316",name:"حنان سعيد أبوبكر مهدي",clinMed:94,totalMed:211,prevPassMed:false, clinSurg:105,totalSurg:221,prevPassSurg:true, clinPed:54,totalPed:122,prevPassPed:true, derm:66,prevPassDerm:true},
+{id:"15323",name:"أحمد محمد شعيب محمد",clinMed:94,totalMed:185,prevPassMed:false, clinSurg:97,totalSurg:189,prevPassSurg:true, clinPed:64,totalPed:139,prevPassPed:true, derm:78,prevPassDerm:false},
+{id:"15334",name:"محمد عادل محمود سليمان",clinMed:91,totalMed:191,prevPassMed:false, clinSurg:79,totalSurg:199,prevPassSurg:true, clinPed:55,totalPed:145,prevPassPed:true, derm:70,prevPassDerm:true},
+{id:"15388",name:"إيناس طلال عبدالحفيظ القطعاني",clinMed:110,totalMed:239,prevPassMed:false, clinSurg:95,totalSurg:230,prevPassSurg:true, clinPed:56,totalPed:131,prevPassPed:true, derm:66,prevPassDerm:true},
+{id:"15403",name:"أصالة رجب عبدالعزيز حسن",clinMed:107,totalMed:239,prevPassMed:false, clinSurg:99,totalSurg:216,prevPassSurg:true, clinPed:61,totalPed:142,prevPassPed:true, derm:71,prevPassDerm:true},
+{id:"15410",name:"نجلاء رجب عبدالباري حسن",clinMed:100,totalMed:202,prevPassMed:false, clinSurg:99,totalSurg:229,prevPassSurg:true, clinPed:64,totalPed:134,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"15415",name:"ندى محمود محمد عرعود",clinMed:91,totalMed:180,prevPassMed:false, clinSurg:78,totalSurg:194,prevPassSurg:true, clinPed:55,totalPed:132,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"15529",name:"ندى محمد جابر إبراهيم",clinMed:94,totalMed:200,prevPassMed:false, clinSurg:78,totalSurg:192,prevPassSurg:true, clinPed:41,totalPed:113,prevPassPed:false, derm:64,prevPassDerm:false},
+{id:"15547",name:"منية صالح عمران ادم",clinMed:108,totalMed:186,prevPassMed:true, clinSurg:86,totalSurg:218,prevPassSurg:true, clinPed:57,totalPed:142,prevPassPed:true, derm:66,prevPassDerm:false},
+{id:"15567",name:"هاجر ميلاد محمد شنيب",clinMed:97,totalMed:200,prevPassMed:false, clinSurg:96,totalSurg:228,prevPassSurg:true, clinPed:55,totalPed:145,prevPassPed:true, derm:70,prevPassDerm:true},
+{id:"15603",name:"مروة سعد عمر صالح",clinMed:112,totalMed:231,prevPassMed:false, clinSurg:88,totalSurg:191,prevPassSurg:true, clinPed:52,totalPed:121,prevPassPed:true, derm:80,prevPassDerm:false},
+{id:"15658",name:"إستبرق مرعي فرج",clinMed:99,totalMed:210,prevPassMed:false, clinSurg:78,totalSurg:196,prevPassSurg:true, clinPed:43,totalPed:108,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"15711",name:"رانيا عبدالله ميلاد الفيتوري",clinMed:111,totalMed:180,prevPassMed:true, clinSurg:97,totalSurg:195,prevPassSurg:true, clinPed:53,totalPed:129,prevPassPed:false, derm:66,prevPassDerm:false},
+{id:"15735",name:"مفتاح محمد علي سالم",clinMed:116,totalMed:231,prevPassMed:false, clinSurg:93,totalSurg:222,prevPassSurg:false, clinPed:63,totalPed:154,prevPassPed:false, derm:73,prevPassDerm:false},
+{id:"15745",name:"نجاة مصطفى بشير علي",clinMed:91,totalMed:180,prevPassMed:false, clinSurg:72,totalSurg:173,prevPassSurg:false, clinPed:54,totalPed:121,prevPassPed:false, derm:63,prevPassDerm:false},
+{id:"15761",name:"منى عبدالغني محفوظ عبدالغني",clinMed:99,totalMed:189,prevPassMed:false, clinSurg:78,totalSurg:189,prevPassSurg:true, clinPed:50,totalPed:126,prevPassPed:false, derm:79,prevPassDerm:false},
+{id:"15767",name:"ملاك رجب حسين عثمان العوشار",clinMed:89,totalMed:188,prevPassMed:false, clinSurg:95,totalSurg:180,prevPassSurg:true, clinPed:61,totalPed:133,prevPassPed:false, derm:62,prevPassDerm:true},
+{id:"15807",name:"اميرة داوود يعقوب عطية المنفي",clinMed:107,totalMed:224,prevPassMed:false, clinSurg:93,totalSurg:191,prevPassSurg:true, clinPed:48,totalPed:120,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"15817",name:"مريم علي صالح إحواس",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"15836",name:"زينب عبدالحميد حسن سليمان",clinMed:79,totalMed:166,prevPassMed:false, clinSurg:89,totalSurg:206,prevPassSurg:true, clinPed:52,totalPed:124,prevPassPed:true, derm:61,prevPassDerm:false},
+{id:"15915",name:"لجين عادل محمد بالخير",clinMed:98,totalMed:215,prevPassMed:false, clinSurg:91,totalSurg:222,prevPassSurg:true, clinPed:62,totalPed:127,prevPassPed:true, derm:72,prevPassDerm:true},
+{id:"15976",name:"عبدالله محمود إقدورة",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"15978",name:"ابراهيم احمد ابراهيم الدوفاني",clinMed:89,totalMed:180,prevPassMed:false, clinSurg:101,totalSurg:213,prevPassSurg:true, clinPed:51,totalPed:134,prevPassPed:false, derm:66,prevPassDerm:true},
+{id:"16047",name:"هناء رجب الحسين",clinMed:91,totalMed:193,prevPassMed:false, clinSurg:90,totalSurg:209,prevPassSurg:true, clinPed:54,totalPed:149,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"16063",name:"محمد حسن عبدالقادر",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"16072",name:"تركية عبدالحميد محمد إسويسي",clinMed:98,totalMed:195,prevPassMed:true, clinSurg:98,totalSurg:233,prevPassSurg:true, clinPed:54,totalPed:131,prevPassPed:true, derm:75,prevPassDerm:false},
+{id:"16114",name:"معتصم بالله مفتاح رمضان",clinMed:95,totalMed:203,prevPassMed:false, clinSurg:88,totalSurg:206,prevPassSurg:true, clinPed:54,totalPed:134,prevPassPed:true, derm:68,prevPassDerm:true},
+{id:"16129",name:"آلاء أحمد الهادي حمد",clinMed:96,totalMed:187,prevPassMed:false, clinSurg:81,totalSurg:190,prevPassSurg:false, clinPed:47,totalPed:119,prevPassPed:false, derm:65,prevPassDerm:true},
+{id:"16146",name:"فادي فيصل نوري مفتاح",clinMed:90,totalMed:186,prevPassMed:false, clinSurg:91,totalSurg:211,prevPassSurg:true, clinPed:51,totalPed:130,prevPassPed:false, derm:70,prevPassDerm:false},
+{id:"16177",name:"فرح عبدالوهاب صالح عبدالسلام",clinMed:84,totalMed:186,prevPassMed:false, clinSurg:78,totalSurg:199,prevPassSurg:false, clinPed:48,totalPed:127,prevPassPed:false, derm:74,prevPassDerm:false},
+{id:"16196",name:"معاذ فرج المبروك سعد",clinMed:100,totalMed:211,prevPassMed:false, clinSurg:98,totalSurg:198,prevPassSurg:true, clinPed:64,totalPed:132,prevPassPed:true, derm:78,prevPassDerm:false},
+{id:"16201",name:"أنس جمعة سليم العمامي",clinMed:112,totalMed:220,prevPassMed:false, clinSurg:96,totalSurg:193,prevPassSurg:true, clinPed:58,totalPed:139,prevPassPed:true, derm:71,prevPassDerm:false},
+{id:"16220",name:"سهيل مصطفى محمد العريبي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"16231",name:"هبة جمعة محمد أحمد",clinMed:87,totalMed:187,prevPassMed:false, clinSurg:99,totalSurg:203,prevPassSurg:true, clinPed:61,totalPed:139,prevPassPed:false, derm:69,prevPassDerm:false},
+{id:"16243",name:"مريم عبدالمنعم فرج بوخشيم",clinMed:98,totalMed:212,prevPassMed:false, clinSurg:88,totalSurg:190,prevPassSurg:true, clinPed:53,totalPed:120,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"16251",name:"غادة سالم علي محمد",clinMed:93,totalMed:180,prevPassMed:false, clinSurg:90,totalSurg:190,prevPassSurg:true, clinPed:55,totalPed:134,prevPassPed:false, derm:69,prevPassDerm:false},
+{id:"16255",name:"إيناس صالح مبارك الشريف",clinMed:94,totalMed:199,prevPassMed:false, clinSurg:102,totalSurg:220,prevPassSurg:true, clinPed:54,totalPed:122,prevPassPed:true, derm:76,prevPassDerm:false},
+{id:"16266",name:"سلمى أحمد إبراهيم الدوفاني",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"16295",name:"هديل محمد مفتاح المهدوي",clinMed:93,totalMed:183,prevPassMed:false, clinSurg:78,totalSurg:195,prevPassSurg:true, clinPed:50,totalPed:120,prevPassPed:true, derm:72,prevPassDerm:true},
+{id:"16306",name:"روان عبدالمنعم صيام رمضان",clinMed:113,totalMed:243,prevPassMed:false, clinSurg:101,totalSurg:225,prevPassSurg:true, clinPed:65,totalPed:141,prevPassPed:true, derm:79,prevPassDerm:true},
+{id:"16309",name:"أماني محمود عبدالحميد عبدالله",clinMed:107,totalMed:226,prevPassMed:false, clinSurg:92,totalSurg:220,prevPassSurg:true, clinPed:59,totalPed:133,prevPassPed:true, derm:66,prevPassDerm:true},
+{id:"16310",name:"زينب محمد آدم موسى",clinMed:90,totalMed:167,prevPassMed:false, clinSurg:89,totalSurg:195,prevPassSurg:true, clinPed:51,totalPed:132,prevPassPed:false, derm:69,prevPassDerm:true},
+{id:"16346",name:"حليمة محمد أبوبكر العقوري",clinMed:94,totalMed:192,prevPassMed:false, clinSurg:94,totalSurg:212,prevPassSurg:true, clinPed:56,totalPed:123,prevPassPed:true, derm:61,prevPassDerm:true},
+{id:"16383",name:"فاطمة رمضان عمر الفيتوري",clinMed:88,totalMed:188,prevPassMed:false, clinSurg:78,totalSurg:203,prevPassSurg:false, clinPed:48,totalPed:139,prevPassPed:false, derm:63,prevPassDerm:true},
+{id:"16396",name:"هبة طاهر بوبكر البرغثي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"16409",name:"أوريدة رمضان رمضان الشواي",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:35,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"16455",name:"مروة رمضان حسين  الدرناوي",clinMed:94,totalMed:196,prevPassMed:false, clinSurg:92,totalSurg:203,prevPassSurg:true, clinPed:49,totalPed:122,prevPassPed:true, derm:63,prevPassDerm:true},
+{id:"16475",name:"راجية عبدالعالي محمد العلواني",clinMed:101,totalMed:216,prevPassMed:false, clinSurg:100,totalSurg:210,prevPassSurg:true, clinPed:61,totalPed:143,prevPassPed:true, derm:66,prevPassDerm:true},
+{id:"16500",name:"ليلى انرشني بركة",clinMed:91,totalMed:204,prevPassMed:false, clinSurg:87,totalSurg:215,prevPassSurg:true, clinPed:51,totalPed:145,prevPassPed:true, derm:67,prevPassDerm:true},
+{id:"16533",name:"ايه مرعي فرج سعيد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"16538",name:"مصطفى إبراهيم مصطفى إبراهيم",clinMed:102,totalMed:203,prevPassMed:false, clinSurg:86,totalSurg:185,prevPassSurg:true, clinPed:52,totalPed:121,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"16583",name:"نور نبيل علي كانون",clinMed:95,totalMed:199,prevPassMed:false, clinSurg:96,totalSurg:208,prevPassSurg:true, clinPed:56,totalPed:125,prevPassPed:true, derm:71,prevPassDerm:true},
+{id:"16619",name:"هدى صابر إبراهيم عوض",clinMed:73,totalMed:161,prevPassMed:false, clinSurg:96,totalSurg:196,prevPassSurg:true, clinPed:49,totalPed:120,prevPassPed:true, derm:84,prevPassDerm:false},
+{id:"16645",name:"منيرة عبدالسلام حامد القذافي",clinMed:88,totalMed:186,prevPassMed:false, clinSurg:94,totalSurg:193,prevPassSurg:true, clinPed:43,totalPed:121,prevPassPed:false, derm:66,prevPassDerm:false},
+{id:"16668",name:"اكرم طاهر محمد",clinMed:86,totalMed:195,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:39,totalPed:119,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"16684",name:"إسراء الزروق احفيظ السائح",clinMed:111,totalMed:217,prevPassMed:true, clinSurg:105,totalSurg:251,prevPassSurg:false, clinPed:61,totalPed:154,prevPassPed:true, derm:68,prevPassDerm:true},
+{id:"16708",name:"حنين محمد يونس عبدالله",clinMed:98,totalMed:197,prevPassMed:false, clinSurg:84,totalSurg:210,prevPassSurg:false, clinPed:55,totalPed:129,prevPassPed:false, derm:73,prevPassDerm:true},
+{id:"16747",name:"المنذر أحمد سعيد بوجواري",clinMed:90,totalMed:197,prevPassMed:false, clinSurg:85,totalSurg:189,prevPassSurg:true, clinPed:56,totalPed:126,prevPassPed:true, derm:61,prevPassDerm:true},
+{id:"16751",name:"عبدالقادرعلي محمد علي العلام",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:85,prevPassDerm:false},
+{id:"16823",name:"حسن منصور عبداالونيس",clinMed:0,totalMed:43,prevPassMed:false, clinSurg:103,totalSurg:242,prevPassSurg:true, clinPed:59,totalPed:135,prevPassPed:true, derm:88,prevPassDerm:true},
+{id:"16866",name:"إيمان عبدالله خليفة",clinMed:86,totalMed:194,prevPassMed:false, clinSurg:78,totalSurg:203,prevPassSurg:true, clinPed:48,totalPed:121,prevPassPed:true, derm:79,prevPassDerm:false},
+{id:"16878",name:"غفران عاشور محمد",clinMed:107,totalMed:212,prevPassMed:false, clinSurg:87,totalSurg:208,prevPassSurg:true, clinPed:55,totalPed:138,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"16887",name:"سماح رزق الله سعد",clinMed:85,totalMed:183,prevPassMed:false, clinSurg:83,totalSurg:211,prevPassSurg:false, clinPed:54,totalPed:148,prevPassPed:false, derm:65,prevPassDerm:true},
+{id:"16909",name:"ابتهال محمد فرج",clinMed:67,totalMed:148,prevPassMed:false, clinSurg:78,totalSurg:197,prevPassSurg:false, clinPed:48,totalPed:134,prevPassPed:false, derm:66,prevPassDerm:false},
+{id:"16916",name:"مودة عبدالجواد موسى",clinMed:89,totalMed:190,prevPassMed:false, clinSurg:78,totalSurg:198,prevPassSurg:true, clinPed:57,totalPed:148,prevPassPed:false, derm:61,prevPassDerm:true},
+{id:"16954",name:"حمادة السعدي جمعه عبدالقادر",clinMed:96,totalMed:195,prevPassMed:false, clinSurg:87,totalSurg:212,prevPassSurg:true, clinPed:51,totalPed:123,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"16955",name:"سارة عبدالكريم سعيد جادالله",clinMed:111,totalMed:232,prevPassMed:true, clinSurg:112,totalSurg:265,prevPassSurg:false, clinPed:66,totalPed:170,prevPassPed:true, derm:89,prevPassDerm:true},
+{id:"16969",name:"أميرة صالح مصطفى",clinMed:89,totalMed:205,prevPassMed:false, clinSurg:99,totalSurg:233,prevPassSurg:true, clinPed:48,totalPed:122,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"16972",name:"دلال جمعة المداعي",clinMed:97,totalMed:185,prevPassMed:true, clinSurg:95,totalSurg:216,prevPassSurg:true, clinPed:56,totalPed:134,prevPassPed:true, derm:78,prevPassDerm:false},
+{id:"16976",name:"اسراء جمعة دومة",clinMed:112,totalMed:234,prevPassMed:false, clinSurg:99,totalSurg:216,prevPassSurg:true, clinPed:50,totalPed:132,prevPassPed:true, derm:68,prevPassDerm:true},
+{id:"17002",name:"هناء صلاح محمد ناجي",clinMed:98,totalMed:219,prevPassMed:false, clinSurg:101,totalSurg:212,prevPassSurg:true, clinPed:53,totalPed:154,prevPassPed:false, derm:67,prevPassDerm:true},
+{id:"17007",name:"أحمد عبدالغني عبدالرحيم يونس",clinMed:105,totalMed:220,prevPassMed:false, clinSurg:105,totalSurg:240,prevPassSurg:true, clinPed:66,totalPed:173,prevPassPed:false, derm:77,prevPassDerm:true},
+{id:"17009",name:"أحمد خالد السنوسي عبدالله",clinMed:87,totalMed:188,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:66,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"17013",name:"فاطمة ناجي محمد ادريس",clinMed:112,totalMed:233,prevPassMed:false, clinSurg:95,totalSurg:186,prevPassSurg:true, clinPed:57,totalPed:120,prevPassPed:true, derm:89,prevPassDerm:false},
+{id:"17036",name:"عبدالحكيم محمد فرج مفتاح",clinMed:98,totalMed:191,prevPassMed:true, clinSurg:86,totalSurg:204,prevPassSurg:true, clinPed:65,totalPed:150,prevPassPed:false, derm:70,prevPassDerm:true},
+{id:"17048",name:"سارة عبدالرحيم عياد البرغثي",clinMed:104,totalMed:214,prevPassMed:false, clinSurg:83,totalSurg:190,prevPassSurg:false, clinPed:46,totalPed:136,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"17050",name:"أريج محمد علي محمد",clinMed:87,totalMed:191,prevPassMed:false, clinSurg:99,totalSurg:209,prevPassSurg:true, clinPed:64,totalPed:151,prevPassPed:false, derm:72,prevPassDerm:true},
+{id:"17056",name:"سالم مصطفى سالم العقوري",clinMed:110,totalMed:226,prevPassMed:false, clinSurg:96,totalSurg:202,prevPassSurg:true, clinPed:48,totalPed:127,prevPassPed:true, derm:67,prevPassDerm:true},
+{id:"17074",name:"حنين سالم سعد مرتضي",clinMed:108,totalMed:236,prevPassMed:false, clinSurg:103,totalSurg:228,prevPassSurg:true, clinPed:48,totalPed:127,prevPassPed:true, derm:77,prevPassDerm:true},
+{id:"17075",name:"محمد فرج محمد فرج",clinMed:113,totalMed:240,prevPassMed:false, clinSurg:93,totalSurg:223,prevPassSurg:false, clinPed:64,totalPed:164,prevPassPed:false, derm:89,prevPassDerm:false},
+{id:"17080",name:"إبراهيم يونس عبدالقادر يونس",clinMed:111,totalMed:236,prevPassMed:false, clinSurg:102,totalSurg:232,prevPassSurg:true, clinPed:57,totalPed:146,prevPassPed:true, derm:68,prevPassDerm:true},
+{id:"17120",name:"أنيسة عادل مصطفى قرقوم",clinMed:102,totalMed:219,prevPassMed:false, clinSurg:96,totalSurg:204,prevPassSurg:true, clinPed:53,totalPed:126,prevPassPed:true, derm:72,prevPassDerm:true},
+{id:"17144",name:"رتاج بركات أحمد عبدالقادر",clinMed:96,totalMed:193,prevPassMed:true, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:55,totalPed:129,prevPassPed:true, derm:0,prevPassDerm:false},
+{id:"17146",name:"عطية سالم محمد عبدالونيس",clinMed:99,totalMed:190,prevPassMed:false, clinSurg:78,totalSurg:200,prevPassSurg:true, clinPed:62,totalPed:147,prevPassPed:false, derm:67,prevPassDerm:true},
+{id:"17179",name:"هند ونيس محمود محمد",clinMed:84,totalMed:182,prevPassMed:true, clinSurg:91,totalSurg:236,prevPassSurg:true, clinPed:57,totalPed:133,prevPassPed:true, derm:64,prevPassDerm:false},
+{id:"17181",name:"سندس فتحي سليم المسعودي",clinMed:101,totalMed:220,prevPassMed:false, clinSurg:93,totalSurg:211,prevPassSurg:true, clinPed:53,totalPed:131,prevPassPed:true, derm:80,prevPassDerm:false},
+{id:"17183",name:"هاجر عبدالسلام ابراهيم الزائدي",clinMed:108,totalMed:234,prevPassMed:false, clinSurg:93,totalSurg:220,prevPassSurg:true, clinPed:53,totalPed:132,prevPassPed:true, derm:65,prevPassDerm:true},
+{id:"17188",name:"ساجدة عبدالحميد مراجع سعيد",clinMed:108,totalMed:233,prevPassMed:false, clinSurg:87,totalSurg:214,prevPassSurg:true, clinPed:55,totalPed:137,prevPassPed:true, derm:68,prevPassDerm:true},
+{id:"17206",name:"غادة صالح جمعة محمد",clinMed:97,totalMed:212,prevPassMed:false, clinSurg:83,totalSurg:207,prevPassSurg:false, clinPed:52,totalPed:151,prevPassPed:false, derm:60,prevPassDerm:true},
+{id:"17218",name:"منية مسعود محمد مسعود",clinMed:83,totalMed:167,prevPassMed:false, clinSurg:86,totalSurg:200,prevPassSurg:true, clinPed:57,totalPed:152,prevPassPed:false, derm:67,prevPassDerm:true},
+{id:"17219",name:"آلاء محمد مفتاح شبش",clinMed:104,totalMed:218,prevPassMed:false, clinSurg:101,totalSurg:222,prevPassSurg:true, clinPed:60,totalPed:158,prevPassPed:false, derm:63,prevPassDerm:true},
+{id:"17297",name:"المعتز بالله راف الله عيسى",clinMed:93,totalMed:180,prevPassMed:false, clinSurg:90,totalSurg:182,prevPassSurg:true, clinPed:58,totalPed:135,prevPassPed:false, derm:61,prevPassDerm:false},
+{id:"17303",name:"سلسبيل سالم رمضان",clinMed:99,totalMed:207,prevPassMed:false, clinSurg:99,totalSurg:223,prevPassSurg:true, clinPed:54,totalPed:140,prevPassPed:true, derm:64,prevPassDerm:true},
+{id:"17375",name:"عائشة اسماعيل محمد عيسى",clinMed:120,totalMed:251,prevPassMed:false, clinSurg:95,totalSurg:237,prevPassSurg:true, clinPed:58,totalPed:131,prevPassPed:true, derm:72,prevPassDerm:true},
+{id:"17379",name:"مريم نوري فرج بن شتوان",clinMed:105,totalMed:216,prevPassMed:false, clinSurg:97,totalSurg:192,prevPassSurg:true, clinPed:61,totalPed:152,prevPassPed:false, derm:81,prevPassDerm:false},
+{id:"17399",name:"فاطمة سالم أعمر محمد",clinMed:94,totalMed:188,prevPassMed:true, clinSurg:99,totalSurg:230,prevPassSurg:false, clinPed:54,totalPed:142,prevPassPed:true, derm:80,prevPassDerm:true},
+{id:"17444",name:"عبدالحميد عمر محمد الدرسي",clinMed:112,totalMed:241,prevPassMed:false, clinSurg:81,totalSurg:210,prevPassSurg:true, clinPed:58,totalPed:131,prevPassPed:true, derm:69,prevPassDerm:true},
+{id:"17450",name:"سند خليفة يوسف عبدالجليل",clinMed:105,totalMed:228,prevPassMed:false, clinSurg:80,totalSurg:203,prevPassSurg:true, clinPed:68,totalPed:144,prevPassPed:true, derm:70,prevPassDerm:true},
+{id:"17460",name:"أسماء محمد فايز علي",clinMed:102,totalMed:220,prevPassMed:false, clinSurg:89,totalSurg:231,prevPassSurg:true, clinPed:64,totalPed:145,prevPassPed:true, derm:61,prevPassDerm:true},
+{id:"17475",name:"آية عبد السلام حسين عامر",clinMed:110,totalMed:221,prevPassMed:false, clinSurg:107,totalSurg:218,prevPassSurg:true, clinPed:56,totalPed:132,prevPassPed:true, derm:66,prevPassDerm:true},
+{id:"17501",name:"المعتصم بالله يحي سليمان صالح",clinMed:97,totalMed:200,prevPassMed:false, clinSurg:90,totalSurg:214,prevPassSurg:true, clinPed:52,totalPed:127,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"17502",name:"فاطمة فتحي سالم سعيد",clinMed:97,totalMed:204,prevPassMed:false, clinSurg:102,totalSurg:207,prevPassSurg:true, clinPed:55,totalPed:126,prevPassPed:true, derm:76,prevPassDerm:true},
+{id:"17569",name:"رنا صالح عبدالله",clinMed:106,totalMed:238,prevPassMed:false, clinSurg:92,totalSurg:214,prevPassSurg:true, clinPed:52,totalPed:121,prevPassPed:true, derm:69,prevPassDerm:true},
+{id:"17583",name:"حسين أبوبكر حسين بوخشيم",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"17590",name:"أحمد حمدان علي خطاب",clinMed:106,totalMed:220,prevPassMed:false, clinSurg:96,totalSurg:235,prevPassSurg:true, clinPed:57,totalPed:160,prevPassPed:true, derm:78,prevPassDerm:true},
+{id:"17605",name:"مصطفى مازن عبيد",clinMed:0,totalMed:0,prevPassMed:false, clinSurg:0,totalSurg:0,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:0,prevPassDerm:false},
+{id:"17615",name:"محمد صالح محمد كجمان",clinMed:107,totalMed:229,prevPassMed:false, clinSurg:97,totalSurg:226,prevPassSurg:true, clinPed:63,totalPed:137,prevPassPed:true, derm:66,prevPassDerm:true},
+{id:"17617",name:"فاطمة فوزي صالح زيدان",clinMed:97,totalMed:200,prevPassMed:false, clinSurg:86,totalSurg:196,prevPassSurg:true, clinPed:53,totalPed:124,prevPassPed:true, derm:60,prevPassDerm:true},
+{id:"17618",name:"يعقوب عبدالقادر صالح علي السحاقي",clinMed:87,totalMed:143,prevPassMed:false, clinSurg:86,totalSurg:181,prevPassSurg:true, clinPed:55,totalPed:129,prevPassPed:false, derm:71,prevPassDerm:true},
+{id:"17624",name:"علي الصافي عبدالعزيز محمد",clinMed:107,totalMed:221,prevPassMed:false, clinSurg:100,totalSurg:241,prevPassSurg:false, clinPed:63,totalPed:155,prevPassPed:false, derm:85,prevPassDerm:false},
+{id:"17626",name:"منال عبدالله محمد الدقيج",clinMed:102,totalMed:220,prevPassMed:false, clinSurg:104,totalSurg:215,prevPassSurg:true, clinPed:61,totalPed:139,prevPassPed:true, derm:75,prevPassDerm:false},
+{id:"17628",name:"عمر محمد عودة",clinMed:99,totalMed:196,prevPassMed:false, clinSurg:80,totalSurg:202,prevPassSurg:true, clinPed:61,totalPed:140,prevPassPed:true, derm:74,prevPassDerm:true},
+{id:"17635",name:"هيام انور احمد بوهديمة",clinMed:111,totalMed:227,prevPassMed:false, clinSurg:105,totalSurg:228,prevPassSurg:true, clinPed:59,totalPed:128,prevPassPed:true, derm:67,prevPassDerm:true},
+{id:"17636",name:"مريم محمد حامد بوخزام",clinMed:96,totalMed:209,prevPassMed:false, clinSurg:102,totalSurg:218,prevPassSurg:true, clinPed:53,totalPed:127,prevPassPed:true, derm:68,prevPassDerm:true},
+{id:"50184",name:"لجينا محمد عبد الرازق",clinMed:93,totalMed:192,prevPassMed:false, clinSurg:83,totalSurg:208,prevPassSurg:false, clinPed:55,totalPed:156,prevPassPed:false, derm:75,prevPassDerm:false},
+{id:"600532",name:"سوزان اغنيوة السنوسي",clinMed:89,totalMed:186,prevPassMed:false, clinSurg:84,totalSurg:208,prevPassSurg:false, clinPed:0,totalPed:0,prevPassPed:false, derm:61,prevPassDerm:false},
+{id:"4140152",name:"زهرة محمد محمد علي",clinMed:94,totalMed:195,prevPassMed:false, clinSurg:86,totalSurg:221,prevPassSurg:true, clinPed:52,totalPed:131,prevPassPed:true, derm:64,prevPassDerm:true}
+];
+
+// دوال التقدير
+function getMedGrade(total, clin) { if (clin<84 || total<180) return "راسب"; if(total>=255) return "ممتاز"; if(total>=225) return "جيد جدا"; if(total>=195) return "جيد"; return "مقبول"; }
+function getSurgGrade(total, clin) { if (clin<54 || total<180) return "راسب"; if(total>=255) return "ممتاز"; if(total>=225) return "جيد جدا"; if(total>=195) return "جيد"; return "مقبول"; }
+function getPedGrade(total, clin) { if (clin<48 || total<120) return "راسب"; if(total>=170) return "ممتاز"; if(total>=150) return "جيد جدا"; if(total>=130) return "جيد"; return "مقبول"; }
+function getDermGrade(total) { if (total<60) return "راسب"; if(total>=85) return "ممتاز"; if(total>=75) return "جيد جدا"; if(total>=65) return "جيد"; return "مقبول"; }
+function gradeToClass(grade) {
+    if(grade === "ممتاز") return "excellent";
+    if(grade === "جيد جدا") return "verygood";
+    if(grade === "جيد") return "good";
+    if(grade === "مقبول") return "pass";
+    return "fail";
+}
+
+studentsRaw.forEach(s => {
+    s.totalOverall = s.totalMed + s.totalSurg + s.totalPed + s.derm;
+    const mp = getMedGrade(s.totalMed, s.clinMed) !== "راسب";
+    const sp = getSurgGrade(s.totalSurg, s.clinSurg) !== "راسب";
+    const pp = getPedGrade(s.totalPed, s.clinPed) !== "راسب";
+    const dp = getDermGrade(s.derm) !== "راسب";
+    s.passOverall = mp && sp && pp && dp;
+    if (!s.passOverall) s.finalGrade = "راسب";
+    else if (s.totalOverall >= 765) s.finalGrade = "ممتاز";
+    else if (s.totalOverall >= 675) s.finalGrade = "جيد جدا";
+    else if (s.totalOverall >= 585) s.finalGrade = "جيد";
+    else if (s.totalOverall >= 540) s.finalGrade = "مقبول";
+    else s.finalGrade = "راسب";
+});
+
+const totalCount = studentsRaw.length;
+const passedCount = studentsRaw.filter(s=>s.passOverall).length;
+const failedCount = totalCount - passedCount;
+const successRate = (passedCount/totalCount*100).toFixed(1);
+const gradeDist = { "ممتاز":0, "جيد جدا":0, "جيد":0, "مقبول":0, "راسب":0 };
+studentsRaw.forEach(s => gradeDist[s.finalGrade]++);
+
+document.getElementById('statsCardsHTML').innerHTML = `
+    <div class="stat-card"><div class="title">📊 عدد الطلاب</div><div class="val">${totalCount}</div></div>
+    <div class="stat-card"><div class="title">✅ الناجحون</div><div class="val">${passedCount}</div><div class="perc">${(passedCount/totalCount*100).toFixed(1)}%</div></div>
+    <div class="stat-card"><div class="title">❌ الراسبون</div><div class="val">${failedCount}</div><div class="perc">${(failedCount/totalCount*100).toFixed(1)}%</div></div>
+    <div class="stat-card success-rate-card"><div class="title">⭐ نسبة النجاح</div><div class="val">${successRate}%</div><div class="perc">✅ من إجمالي الطلاب</div></div>
+    <div class="stat-card"><div class="title">🏆 ممتاز</div><div class="val">${gradeDist["ممتاز"]}</div><div class="perc">${(gradeDist["ممتاز"]/totalCount*100).toFixed(1)}%</div></div>
+    <div class="stat-card"><div class="title">🌟 جيد جدا</div><div class="val">${gradeDist["جيد جدا"]}</div><div class="perc">${(gradeDist["جيد جدا"]/totalCount*100).toFixed(1)}%</div></div>
+    <div class="stat-card"><div class="title">👍 جيد</div><div class="val">${gradeDist["جيد"]}</div><div class="perc">${(gradeDist["جيد"]/totalCount*100).toFixed(1)}%</div></div>
+    <div class="stat-card"><div class="title">✅ مقبول</div><div class="val">${gradeDist["مقبول"]}</div><div class="perc">${(gradeDist["مقبول"]/totalCount*100).toFixed(1)}%</div></div>
+`;
+
+new Chart(document.getElementById('passFailChart'), { type: 'pie', data: { labels: ['ناجحين','راسبين'], datasets: [{ data: [passedCount,failedCount], backgroundColor: ['#2ecc71','#e74c3c'] }] } });
+new Chart(document.getElementById('gradesChart'), { type: 'bar', data: { labels: Object.keys(gradeDist), datasets: [{ label: 'عدد الطلاب', data: Object.values(gradeDist), backgroundColor: '#3a7ca5' }] } });
+
+function computeDetailedSubjectStats() {
+    const medEntered = studentsRaw.filter(s => !s.prevPassMed);
+    const medPass = medEntered.filter(s => getMedGrade(s.totalMed, s.clinMed) !== "راسب");
+    const medGradeDist = { "ممتاز":0, "جيد جدا":0, "جيد":0, "مقبول":0 };
+    medPass.forEach(s => { const g = getMedGrade(s.totalMed, s.clinMed); if(g==="ممتاز") medGradeDist["ممتاز"]++; else if(g==="جيد جدا") medGradeDist["جيد جدا"]++; else if(g==="جيد") medGradeDist["جيد"]++; else if(g==="مقبول") medGradeDist["مقبول"]++; });
+    
+    const surgEntered = studentsRaw.filter(s => !s.prevPassSurg);
+    const surgPass = surgEntered.filter(s => getSurgGrade(s.totalSurg, s.clinSurg) !== "راسب");
+    const surgGradeDist = { "ممتاز":0, "جيد جدا":0, "جيد":0, "مقبول":0 };
+    surgPass.forEach(s => { const g = getSurgGrade(s.totalSurg, s.clinSurg); if(g==="ممتاز") surgGradeDist["ممتاز"]++; else if(g==="جيد جدا") surgGradeDist["جيد جدا"]++; else if(g==="جيد") surgGradeDist["جيد"]++; else if(g==="مقبول") surgGradeDist["مقبول"]++; });
+    
+    const pedEntered = studentsRaw.filter(s => !s.prevPassPed);
+    const pedPass = pedEntered.filter(s => getPedGrade(s.totalPed, s.clinPed) !== "راسب");
+    const pedGradeDist = { "ممتاز":0, "جيد جدا":0, "جيد":0, "مقبول":0 };
+    pedPass.forEach(s => { const g = getPedGrade(s.totalPed, s.clinPed); if(g==="ممتاز") pedGradeDist["ممتاز"]++; else if(g==="جيد جدا") pedGradeDist["جيد جدا"]++; else if(g==="جيد") pedGradeDist["جيد"]++; else if(g==="مقبول") pedGradeDist["مقبول"]++; });
+    
+    const dermEntered = studentsRaw.filter(s => !s.prevPassDerm);
+    const dermPass = dermEntered.filter(s => getDermGrade(s.derm) !== "راسب");
+    const dermGradeDist = { "ممتاز":0, "جيد جدا":0, "جيد":0, "مقبول":0 };
+    dermPass.forEach(s => { const g = getDermGrade(s.derm); if(g==="ممتاز") dermGradeDist["ممتاز"]++; else if(g==="جيد جدا") dermGradeDist["جيد جدا"]++; else if(g==="جيد") dermGradeDist["جيد"]++; else if(g==="مقبول") dermGradeDist["مقبول"]++; });
+
+    return { med: { entered: medEntered.length, pass: medPass.length, fail: medEntered.length - medPass.length, rate: medEntered.length ? ((medPass.length/medEntered.length)*100).toFixed(1) : 0, dist: medGradeDist },
+             surg: { entered: surgEntered.length, pass: surgPass.length, fail: surgEntered.length - surgPass.length, rate: surgEntered.length ? ((surgPass.length/surgEntered.length)*100).toFixed(1) : 0, dist: surgGradeDist },
+             ped: { entered: pedEntered.length, pass: pedPass.length, fail: pedEntered.length - pedPass.length, rate: pedEntered.length ? ((pedPass.length/pedEntered.length)*100).toFixed(1) : 0, dist: pedGradeDist },
+             derm: { entered: dermEntered.length, pass: dermPass.length, fail: dermEntered.length - dermPass.length, rate: dermEntered.length ? ((dermPass.length/dermEntered.length)*100).toFixed(1) : 0, dist: dermGradeDist } };
+}
+
+function renderSubjectsStats() {
+    const stats = computeDetailedSubjectStats();
+    const grid = document.getElementById('subjectsStatsGrid');
+    if (!grid) return;
+    grid.innerHTML = `
+        <div class="subject-card"><div class="subject-name">🧬 الباطنة</div><div class="subject-stat"><span class="label">📌 عدد الطلبة</span> <span class="number">${stats.med.entered}</span></div><div class="subject-stat"><span class="label">✅ الناجحون</span> <span class="number">${stats.med.pass}</span></div><div class="subject-stat"><span class="label">❌ الراسبون</span> <span class="number">${stats.med.fail}</span></div><div class="subject-rate">⭐ نسبة النجاح: ${stats.med.rate}%</div><div class="grade-dist">📊 التقديرات: ممتاز ${stats.med.dist["ممتاز"]} | جيد جدا ${stats.med.dist["جيد جدا"]} | جيد ${stats.med.dist["جيد"]} | مقبول ${stats.med.dist["مقبول"]}</div></div>
+        <div class="subject-card"><div class="subject-name">🔪 الجراحة</div><div class="subject-stat"><span class="label">📌 عدد الطلبة</span> <span class="number">${stats.surg.entered}</span></div><div class="subject-stat"><span class="label">✅ الناجحون</span> <span class="number">${stats.surg.pass}</span></div><div class="subject-stat"><span class="label">❌ الراسبون</span> <span class="number">${stats.surg.fail}</span></div><div class="subject-rate">⭐ نسبة النجاح: ${stats.surg.rate}%</div><div class="grade-dist">📊 التقديرات: ممتاز ${stats.surg.dist["ممتاز"]} | جيد جدا ${stats.surg.dist["جيد جدا"]} | جيد ${stats.surg.dist["جيد"]} | مقبول ${stats.surg.dist["مقبول"]}</div></div>
+        <div class="subject-card"><div class="subject-name">👶 طب الأطفال</div><div class="subject-stat"><span class="label">📌 عدد الطلبة</span> <span class="number">${stats.ped.entered}</span></div><div class="subject-stat"><span class="label">✅ الناجحون</span> <span class="number">${stats.ped.pass}</span></div><div class="subject-stat"><span class="label">❌ الراسبون</span> <span class="number">${stats.ped.fail}</span></div><div class="subject-rate">⭐ نسبة النجاح: ${stats.ped.rate}%</div><div class="grade-dist">📊 التقديرات: ممتاز ${stats.ped.dist["ممتاز"]} | جيد جدا ${stats.ped.dist["جيد جدا"]} | جيد ${stats.ped.dist["جيد"]} | مقبول ${stats.ped.dist["مقبول"]}</div></div>
+        <div class="subject-card"><div class="subject-name">🧴 الجلدية</div><div class="subject-stat"><span class="label">📌 عدد الطلبة</span> <span class="number">${stats.derm.entered}</span></div><div class="subject-stat"><span class="label">✅ الناجحون</span> <span class="number">${stats.derm.pass}</span></div><div class="subject-stat"><span class="label">❌ الراسبون</span> <span class="number">${stats.derm.fail}</span></div><div class="subject-rate">⭐ نسبة النجاح: ${stats.derm.rate}%</div><div class="grade-dist">📊 التقديرات: ممتاز ${stats.derm.dist["ممتاز"]} | جيد جدا ${stats.derm.dist["جيد جدا"]} | جيد ${stats.derm.dist["جيد"]} | مقبول ${stats.derm.dist["مقبول"]}</div></div>
+    `;
+}
+
+document.getElementById('statsToggleBtn').onclick = () => {
+    const container = document.getElementById('statsContainer');
+    container.classList.toggle('active');
+    if (container.classList.contains('active')) renderSubjectsStats();
+};
+
+function findStudentById(id) { return studentsRaw.find(s => s.id === id.trim()); }
+
+function searchAndDisplay() {
+    const id = document.getElementById('studentIdInput').value.trim();
+    if (!id) { document.getElementById('resultContainer').innerHTML = '<div style="text-align:center;padding:50px 20px;"><span style="font-size:1.5rem;">⚠️ الرجاء إدخال رقمك الدراسي</span></div>'; return; }
+    const s = findStudentById(id);
+    if (!s) { document.getElementById('resultContainer').innerHTML = '<div style="text-align:center;padding:50px 20px;color:red;"><span style="font-size:1.5rem;">❌ رقم دراسي غير صحيح أو غير مسجل في الدور الثاني</span><br><span style="font-size:1rem;">النتائج خاصة بأصحاب الأرقام فقط</span></div>'; return; }
+    const medG = getMedGrade(s.totalMed, s.clinMed);
+    const surgG = getSurgGrade(s.totalSurg, s.clinSurg);
+    const pedG = getPedGrade(s.totalPed, s.clinPed);
+    const dermG = getDermGrade(s.derm);
+    const totalPercentage = ((s.totalOverall / 900) * 100).toFixed(1);
+    
+    const subjects = [
+        { name: "الباطنة", icon: "🧬", clin: s.clinMed, clinMax: 140, clinPass: 84, total: s.totalMed, totalMax: 300, totalPass: 180, grade: medG, gradeClass: gradeToClass(medG) },
+        { name: "الجراحة", icon: "🔪", clin: s.clinSurg, clinMax: 90, clinPass: 54, total: s.totalSurg, totalMax: 300, totalPass: 180, grade: surgG, gradeClass: gradeToClass(surgG) },
+        { name: "طب الأطفال", icon: "👶", clin: s.clinPed, clinMax: 80, clinPass: 48, total: s.totalPed, totalMax: 200, totalPass: 120, grade: pedG, gradeClass: gradeToClass(pedG) },
+        { name: "الجلدية", icon: "🧴", clin: null, clinMax: null, clinPass: null, total: s.derm, totalMax: 100, totalPass: 60, grade: dermG, gradeClass: gradeToClass(dermG) }
+    ];
+    
+    let rowsHtml = '';
+    for (let sub of subjects) {
+        const clinHtml = sub.clin !== null ? `<span class="numeric-cell">${sub.clin}</span><div class="score-info">العظمى: ${sub.clinMax} | النجاح: ${sub.clinPass}</div>` : '—';
+        const totalHtml = `<span class="numeric-cell">${sub.total}</span><div class="score-info">العظمى: ${sub.totalMax} | النجاح: ${sub.totalPass}</div>`;
+        rowsHtml += `<tr><td><span>${sub.icon} ${sub.name}</span></td><td style="text-align:center">${clinHtml}</td><td style="text-align:center">${totalHtml}</td><td style="text-align:center"><span class="grade-badge ${sub.gradeClass}">${sub.grade}</span></td></tr>`;
+    }
+    
+    document.getElementById('resultContainer').innerHTML = `
+        <div class="student-header"><div class="student-name">${s.name}</div><div class="student-id">${s.id}</div></div>
+        <table class="grades-table"><thead><tr><th>المادة</th><th>الدرجة السريرية</th><th>المجموع الكلي</th><th>التقدير</th></tr></thead><tbody>${rowsHtml}</tbody></table>
+        <div class="final-summary">
+            <div class="summary-item"><div class="label">المجموع الكلي</div><div class="value grade-value" style="font-size: 2rem;">${s.totalOverall} / 900</div></div>
+            <div class="summary-item"><div class="label">التقدير العام</div><div class="value grade-value" style="background: ${s.finalGrade === 'ممتاز' ? '#27ae60' : s.finalGrade === 'جيد جدا' ? '#82e0aa' : s.finalGrade === 'جيد' ? '#3498db' : s.finalGrade === 'مقبول' ? '#f39c12' : '#e74c3c'}; color: white; padding: 10px 25px; border-radius: 50px; font-size: 1.8rem; font-weight: 900;">${s.finalGrade} (${totalPercentage}%)</div></div>
+            <div class="summary-item"><div class="label">الحالة</div><div class="value grade-value" style="background: ${s.passOverall ? '#27ae60' : '#e74c3c'}; color: white; padding: 10px 25px; border-radius: 50px; font-size: 1.8rem; font-weight: 900;">${s.passOverall ? '✅ ناجح' : '❌ راسب'}</div></div>
+        </div>
+        <div class="signatures">
+            <div class="signature-item"><div class="signature-title">عميد الكلية</div><div class="signature-name">د. فتحي البركي</div></div>
+            <div class="signature-item"><div class="signature-title">مسجل الكلية</div><div class="signature-name">أ. ونيس الطواح</div></div>
+            <div class="signature-item"><div class="signature-title">رئيس قسم الدراسة والامتحانات</div><div class="signature-name">د. صالح الاوجلي</div></div>
+        </div>
+        <div style="text-align:center; margin-top:20px;"><button class="print-btn" onclick="window.print();">🖨️ طباعة النتيجة</button></div>
+    `;
+}
+
+document.getElementById('searchBtn').onclick = searchAndDisplay;
+if (document.getElementById('statsContainer').classList.contains('active')) renderSubjectsStats();
+</script>
+</body>
+</html>
